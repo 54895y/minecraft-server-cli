@@ -1,0 +1,35 @@
+name: Sync Wiki
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "docs/wiki/**"
+      - ".github/workflows/wiki.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: Sync docs/wiki to GitHub Wiki
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Sync wiki
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki
+          rsync -a --delete docs/wiki/ wiki/
+          cd wiki
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "docs: sync wiki"
+            git push
+          fi
