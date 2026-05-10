@@ -49,6 +49,8 @@ Official source:
 mcserver core download --type paper --source official --mc latest -o server.jar
 ```
 
+`latest` prefers the newest traditional Minecraft version such as `1.21.x`. If PaperMC exposes a non-traditional version like `26.1.2`, pass it explicitly with `--mc 26.1.2`.
+
 Mirror source:
 
 ```bash

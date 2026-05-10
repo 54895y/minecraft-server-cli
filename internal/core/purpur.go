@@ -53,7 +53,7 @@ func (p *PurpurProvider) ResolveDownload(ctx context.Context, req Request) (Down
 		if len(versions) == 0 {
 			return DownloadCandidate{}, fmt.Errorf("no Purpur versions available")
 		}
-		req.MCVersion = versions[0]
+		req.MCVersion = selectLatestMinecraftVersion(versions)
 	}
 	build := strings.TrimSpace(req.Build)
 	if build == "" || build == "latest" {

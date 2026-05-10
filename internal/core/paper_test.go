@@ -25,3 +25,10 @@ func TestSelectPaperBuild(t *testing.T) {
 		t.Fatalf("got build %d", build.ID)
 	}
 }
+
+func TestSelectLatestMinecraftVersionPrefersTraditionalVersions(t *testing.T) {
+	got := selectLatestMinecraftVersion([]string{"26.1.2", "26.1.1", "1.21.11", "1.21.10"})
+	if got != "1.21.11" {
+		t.Fatalf("got %q", got)
+	}
+}

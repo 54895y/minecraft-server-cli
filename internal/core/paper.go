@@ -82,7 +82,7 @@ func (p *CompositeProvider) ResolveDownload(ctx context.Context, req Request) (D
 		if len(versions) == 0 {
 			return DownloadCandidate{}, fmt.Errorf("no versions available for %s", req.CoreType)
 		}
-		req.MCVersion = versions[0]
+		req.MCVersion = selectLatestMinecraftVersion(versions)
 	}
 
 	var res []paperBuild
@@ -148,6 +148,18 @@ func flattenVersions(groups map[string][]string) []string {
 		}
 	}
 	return versions
+}
+
+func selectLatestMinecraftVersion(versions []string) string {
+	for _, version := range versions {
+		if strings.HasPrefix(version, "1.") {
+			return version
+		}
+	}
+	if len(versions) == 0 {
+		return ""
+	}
+	return versions[0]
 }
 
 func selectPaperBuild(builds []paperBuild, buildID, channel string) (paperBuild, error) {

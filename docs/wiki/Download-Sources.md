@@ -6,6 +6,8 @@ Paper, Folia, and Velocity use PaperMC Downloads Service v3.
 
 Purpur uses the PurpurMC v2 API.
 
+`--mc latest` prefers traditional Minecraft versions such as `1.21.x`. If an upstream provider exposes a non-traditional version such as `26.1.2`, pass that exact value through `--mc`.
+
 ## Mirrors
 
 The CLI includes mirror source names for:
