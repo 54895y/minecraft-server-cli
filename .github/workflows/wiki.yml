@@ -25,7 +25,10 @@ jobs:
           set -euo pipefail
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki
+          if ! git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.wiki.git" wiki; then
+            echo "GitHub Wiki repository is not available yet; keeping docs/wiki as the source wiki content."
+            exit 0
+          fi
           rsync -a --delete docs/wiki/ wiki/
           cd wiki
           if [ -n "$(git status --porcelain)" ]; then
